@@ -1,0 +1,180 @@
+ position[i] = 6.51949e-05
+ velAng[i] = 0.0522972
+ position[i] = 0.0185493
+ velAng[i] = 0.0522907
+ position[i] = -0.0202118
+ position[i] = -4.90168e-05
+ position[i] = 6.25844e-07
+ position[i] = 1.9056e-07
+Current time: 0.0000
+ position[i] = 0.000131682
+ velAng[i] = 0.0520234
+ position[i] = 0.0494646
+ velAng[i] = 0.0520117
+ position[i] = -0.0521342
+ position[i] = -7.51721e-05
+ position[i] = 3.27847e-07
+ position[i] = 1.2774e-07
+Current time: 0.5000
+ position[i] = 0.000138923
+ velAng[i] = 0.0516886
+ position[i] = 0.08038
+ velAng[i] = 0.051682
+ position[i] = -0.0840657
+ position[i] = -6.19916e-05
+ position[i] = 2.98034e-07
+ position[i] = 1.546e-07
+Current time: 1.0000
+ position[i] = 0.000138923
+ velAng[i] = 0.0513235
+ position[i] = 0.111295
+ velAng[i] = 0.0513045
+ position[i] = -0.116005
+ position[i] = -2.3085e-05
+ position[i] = -8.93975e-08
+ position[i] = -2.36812e-08
+Current time: 1.5000
+ position[i] = 0.000138923
+ velAng[i] = 0.0508966
+ position[i] = 0.142211
+ velAng[i] = 0.0508737
+ position[i] = -0.147952
+ position[i] = 2.44906e-05
+ position[i] = 3.87427e-07
+ position[i] = 2.30078e-07
+Current time: 2.0000
+ position[i] = 0.000138923
+ velAng[i] = 0.0504055
+ position[i] = 0.174158
+ velAng[i] = 0.050387
+ position[i] = -0.180969
+ position[i] = 6.19565e-05
+ position[i] = 5.96177e-08
+ position[i] = -5.31166e-08
+Current time: 2.5000
+ position[i] = 0.000138923
+ velAng[i] = 0.0498806
+ position[i] = 0.205074
+ velAng[i] = 0.0498621
+ position[i] = -0.212927
+ position[i] = 8.56505e-05
+ position[i] = -7.53175e-12
+ position[i] = 1.54406e-07
+Current time: 3.0000
+ position[i] = 0.000138923
+ velAng[i] = 0.049313
+ position[i] = 0.235991
+ velAng[i] = 0.049288
+ position[i] = -0.244889
+ position[i] = 9.6908e-05
+ position[i] = 2.08496e-07
+ position[i] = -8.36175e-08
+Current time: 3.5000
+ position[i] = 0.000138923
+ velAng[i] = 0.0486904
+ position[i] = 0.266907
+ velAng[i] = 0.0486743
+ position[i] = -0.276853
+ position[i] = 9.79707e-05
+ position[i] = 2.38348e-07
+ position[i] = -2.47841e-08
+Current time: 4.0000
+ position[i] = 0.000138923
+ velAng[i] = 0.0480237
+ position[i] = 0.297824
+ velAng[i] = 0.0480059
+ position[i] = -0.308818
+ position[i] = 8.76811e-05
+ position[i] = 1.78802e-07
+ position[i] = -1.18751e-08
+Current time: 4.5000
+ position[i] = 0.000138923
+ velAng[i] = 0.0472962
+ position[i] = 0.329771
+ velAng[i] = 0.0472667
+ position[i] = -0.341849
+ position[i] = 6.26381e-05
+ position[i] = 3.27726e-07
+ position[i] = 2.91229e-08
+Current time: 5.0000
+ position[i] = 0.000138923
+ velAng[i] = 0.0465689
+ position[i] = 0.359657
+ velAng[i] = 0.0465388
+ position[i] = -0.372747
+ position[i] = 2.96491e-05
+ position[i] = 3.57581e-07
+ position[i] = -3.09609e-08
+Current time: 5.5000
+ position[i] = 0.000138923
+ velAng[i] = 0.0457651
+ position[i] = 0.390573
+ velAng[i] = 0.0457359
+ position[i] = -0.404708
+ position[i] = -1.05713e-05
+ position[i] = 8.93998e-08
+ position[i] = 2.91005e-07
+Current time: 6.0000
+ position[i] = 0.000138923
+ velAng[i] = 0.0448599
+ position[i] = 0.422519
+ velAng[i] = 0.0448387
+ position[i] = -0.437732
+ position[i] = -3.99394e-05
+ position[i] = 3.27804e-07
+ position[i] = 4.70655e-08
+Current time: 6.5000
+ position[i] = 0.000138923
+ velAng[i] = 0.0440332
+ position[i] = 0.452404
+ velAng[i] = 0.0439974
+ position[i] = -0.46862
+ position[i] = -5.46931e-05
+ position[i] = -1.78779e-07
+ position[i] = 1.44004e-07
+Current time: 7.0000
+ position[i] = 0.000138923
+ velAng[i] = 0.0431104
+ position[i] = 0.483319
+ velAng[i] = 0.0430747
+ position[i] = -0.500567
+ position[i] = -5.88508e-05
+ position[i] = 1.78849e-07
+ position[i] = 4.51694e-08
+Current time: 7.5000
+ position[i] = 0.000138923
+ velAng[i] = 0.0421419
+ position[i] = 0.514233
+ velAng[i] = 0.0421055
+ position[i] = -0.532508
+ position[i] = -5.30243e-05
+ position[i] = 3.87445e-07
+ position[i] = 5.88919e-08
+Current time: 8.0000
+ position[i] = 0.000138923
+ velAng[i] = 0.0411309
+ position[i] = 0.545147
+ velAng[i] = 0.0410952
+ position[i] = -0.56444
+ position[i] = -3.63094e-05
+ position[i] = 2.38442e-07
+ position[i] = 2.63068e-07
+Current time: 8.5000
+ position[i] = 0.000138923
+ velAng[i] = 0.0400485
+ position[i] = 0.577091
+ velAng[i] = 0.0400073
+ position[i] = -0.597427
+ position[i] = -7.94952e-06
+ position[i] = 3.27865e-07
+ position[i] = 8.5263e-08
+Current time: 9.0000
+ position[i] = 0.000138923
+ velAng[i] = 0.0389556
+ position[i] = 0.608004
+ velAng[i] = 0.0389264
+ position[i] = -0.629338
+ position[i] = 1.58205e-05
+ position[i] = 5.96628e-08
+ position[i] = -6.31955e-08
+Current time: 9.5000
