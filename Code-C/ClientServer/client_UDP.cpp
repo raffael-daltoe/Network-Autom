@@ -19,24 +19,48 @@ void print_msg(msg_t &msg)
     }
     printf("\n");
 }
+// Defines a vector for each, containing the values provided for G and tau.
+std::vector<double> G_values = {57.3, 57.3, 57.3, 57.3, 57.3, 57.3};
+std::vector<double> tau_values = {0.521, 0.772, 0.505, 0.834, 0.639, 0.742};
 
-#define K_MIN 0.1
-#define K_MAX 5.0
-
-/* Logistic function parameters */
-#define A 1  // steepness of the curve
-#define B 2.0 // midpoint of the sigmoid
-
-double logistic_function(double x) {
-    return (K_MAX - K_MIN) / (1 + exp(-A * (x - B))) + K_MIN;
+double f(double Kc, double Trc, double G, double tau) {
+    if (Kc * G <= 1) {
+        return std::numeric_limits<double>::max(); // Return a large value if out of domain
+    }
+    double acos_value = std::acos(-1 / (Kc * G));
+    return ((tau * acos_value) / std::sqrt(((Kc * G) * (Kc * G)) - 1)) - Trc;
 }
+
+// Bisection method to find the root of f(Kc) = 0
+double bissection_method(double Trc, double G, double tau, double lower_bound, double upper_bound, double tolerance) {
+    double lower = lower_bound;
+    double upper = upper_bound;
+    double midpoint;
+    double f_midpoint;
+    double f_lower = f(lower, Trc, G, tau);
+
+    while ((upper - lower) > tolerance) {
+        midpoint = (upper + lower) / 2;
+        f_midpoint = f(midpoint, Trc, G, tau);
+
+        if (f_midpoint * f_lower > 0) { // f_midpoint and f_lower have the same sign
+            lower = midpoint;
+            f_lower = f_midpoint;
+        } else {
+            upper = midpoint;
+        }
+    }
+
+    return (upper + lower) / 2; // The root lies between upper and lower
+}
+
 
 void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,int *res,struct sockaddr_in &sockAddr)
 {
     struct timeval start;       
     struct timeval end;  
     unsigned long long delta;
-
+    std::vector<double> Kc_values;
     while (true)
     {
 
@@ -51,37 +75,43 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
         delta = (end.tv_sec - start.tv_sec) * 1000 +
                 (end.tv_usec - start.tv_usec) / 1000;
 
-        /*if (delta <= 100)
+        double Trc = delta / 1000.0; // Converting to seconds
+        if (delta > 1000)
         {
-            K[1] = 2.00;
-            printf("delta <= 100\n");
-        }
-        else if (delta <= 200)
-        {
-            K[1] = 1.00;
-            printf("delta <= 200\n");
-        }
-        else if (delta <= 400)
-        {
-            K[1] = 0.50;
-            printf("delta <= 400\n");
-        }
-        else if (delta <= 1000)
-        {
-            K[1] = 0.25;
-            printf("delta <= 1000\n");
+            for (size_t i = 0; i < G_values.size(); ++i) {
+                double Kc = bissection_method(Trc, G_values[i], tau_values[i], 1.01 / G_values[i], 100, 1e-6);
+                Kc_values.push_back(Kc);
+                cout << "No Controlable, delta = " << delta << endl;
+            }
         }
         else
         {
-            K[1] = 1.21;
-            printf("non controlable \n");
-        }*/
-        K[1] = logistic_function(fb[1]);
-        cout << "Optimal K for delta " << delta << " is: " << K[1] << endl;
+            for (size_t i = 0; i < G_values.size(); ++i) {
+                double Kc = bissection_method(Trc, G_values[i], tau_values[i], 1.01 / G_values[i], 100, 1e-6);
+                Kc_values.push_back(Kc);
+                cout << "Controlable, delta = " << delta << endl;
+            }
+        }
+
+        // Kc_values now contains Kc values for each arm
+        for (int j=0; j<ARMS;j++) {
+            K[j] = Kc_values[j];
+        }
+        
+        // Update Kc gain for each arm.
+        std::vector<double> Kc_values;
+        for (size_t i = 0; i < G_values.size(); ++i) {
+            double Kc = bissection_method(Trc, G_values[i], tau_values[i], 1.01 / G_values[i], 100, 1e-6);
+            Kc_values.push_back(Kc);
+        }
+
+        // Kc_values now contains Kc values for each arm
+        for (int j=0; j<ARMS;j++) {
+            K[j] = Kc_values[j];
+        }
 
 
-
-        /* Generate input singal and retrive feedback data. */
+        /* Generate input signal and retrieve feedback data. */
 
         for (int j = 0; j < ARMS; j++)
         {
@@ -105,7 +135,7 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
 
         //cout << "time" << 
         printf("time: %6.4lf\n", msg.time / 1000.0);
-        printf("retard: %6.4lf\n", delta / 1000.0);
+        printf("delay: %6.4lf\n", delta / 1000.0);
         printf("in[1]: %6.4lf\n", in[1]);
         printf("fb[1]: %6.4lf\n", fb[1]);
         printf("err[1]: %6.4lf\n", err[1]);
