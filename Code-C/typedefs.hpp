@@ -30,7 +30,7 @@
 #define ARMS 6
 #define RETARD_RS_PORT 2000  // Retard to Server
 #define ROBOT_TO_SERVER 2005 // Port of robot to server
-#define DELAY_MS_SERVER 400
+#define DELAY_MS_SERVER 800
 
 // --------------------------------------------------------
 #define RETARD_CR_PORT 2002 // Client to Retard
@@ -48,7 +48,7 @@
 #define SERVER_PORT 2000      // Port the server listens on
 #define SERVER_TO_RETARD 2004 // Port of server to retard sending back the package
 //#define PACKET_LOSS_RATE 20  // 10% packet loss
-#define DELAY_MS_LOSSPACKAGE       300    // 100ms delay
+#define DELAY_MS_LOSSPACKAGE       600    // 100ms delay
 
 // --------------------------------------------------------
 

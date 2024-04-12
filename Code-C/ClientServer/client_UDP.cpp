@@ -20,11 +20,22 @@ void print_msg(msg_t &msg)
     printf("\n");
 }
 
+#define K_MIN 0.1
+#define K_MAX 5.0
+
+/* Logistic function parameters */
+#define A 1  // steepness of the curve
+#define B 2.0 // midpoint of the sigmoid
+
+double logistic_function(double x) {
+    return (K_MAX - K_MIN) / (1 + exp(-A * (x - B))) + K_MIN;
+}
+
 void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,int *res,struct sockaddr_in &sockAddr)
 {
     struct timeval start;       
     struct timeval end;  
-    unsigned long long delta;   
+    unsigned long long delta;
 
     while (true)
     {
@@ -40,7 +51,7 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
         delta = (end.tv_sec - start.tv_sec) * 1000 +
                 (end.tv_usec - start.tv_usec) / 1000;
 
-        if (delta <= 100)
+        /*if (delta <= 100)
         {
             K[1] = 2.00;
             printf("delta <= 100\n");
@@ -64,7 +75,11 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
         {
             K[1] = 1.21;
             printf("non controlable \n");
-        }
+        }*/
+        K[1] = logistic_function(fb[1]);
+        cout << "Optimal K for delta " << delta << " is: " << K[1] << endl;
+
+
 
         /* Generate input singal and retrive feedback data. */
 
@@ -88,6 +103,7 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
 
         /* Print values useful for debugging. */
 
+        //cout << "time" << 
         printf("time: %6.4lf\n", msg.time / 1000.0);
         printf("retard: %6.4lf\n", delta / 1000.0);
         printf("in[1]: %6.4lf\n", in[1]);
