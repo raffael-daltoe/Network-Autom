@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -std=c++23
+CXXFLAGS = -std=c++20
 INCLUDES = -I../
 INCLUDES += -I/usr/include/eigen3
 

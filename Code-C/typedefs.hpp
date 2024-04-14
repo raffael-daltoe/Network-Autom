@@ -15,8 +15,8 @@
 #include <semaphore>
 #include <cmath>
 #include <vector>
-#include <Eigen/Dense>      
-#include <Eigen/Core>
+// #include <Eigen/Dense>      
+// #include <Eigen/Core>
 #include <inttypes.h>
 
 #include <list>
@@ -69,4 +69,5 @@ typedef struct {
     int time;
     struct timeval sys_time;
     double joints[ARMS];
+    float pos;
 } msg_t;

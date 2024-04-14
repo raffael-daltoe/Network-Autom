@@ -105,16 +105,17 @@ void takeValuesOfCoppelia(msg_t *msg, int ClientID)
     gettimeofday(&msg->sys_time, NULL);
 }
 
-void vrep_set(int joint, double value,int clientID)
+void vrep_set(int joint, double value,int clientID,float pos)
 {
     simxSetJointTargetVelocity(clientID, handles[joint], (simxFloat) value,
         simx_opmode_oneshot);
+    simxSetJointTargetPosition(clientID,handles[1],pos,simx_opmode_oneshot);
 }
 
 void SetValuesArm(msg_t msg,int clientID)
 {
     for(int i = 0; i < ARMS; i++) { 
-        vrep_set(i, msg.joints[i],clientID);
+        vrep_set(i, msg.joints[i],clientID,msg.pos);
     }
 }
 

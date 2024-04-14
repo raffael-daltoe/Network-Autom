@@ -1,13 +1,19 @@
 #include "../typedefs.hpp"
 
-using namespace Eigen;
+//using namespace Eigen;
 
 static float stats_engine[6][2];
-ArrayXd in(ARMS);
-ArrayXd fb(ARMS);
-ArrayXd err(ARMS);
-ArrayXd out(ARMS);
-ArrayXd K(ARMS);
+// ArrayXd in(ARMS);
+// ArrayXd fb(ARMS);
+// ArrayXd err(ARMS);
+// ArrayXd out(ARMS);
+// ArrayXd K(ARMS);
+double in[ARMS];
+double fb[ARMS];
+double err[ARMS];
+double out[ARMS];
+double K[ARMS];
+
 
 void print_msg(msg_t &msg)
 {
@@ -63,6 +69,7 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
     std::vector<double> Kc_values;
     while (true)
     {
+        
 
         recvfrom(*res2, &msg, sizeof(msg), 0, (struct sockaddr *)&sockAddr_Recv, (socklen_t *)&sockAddr_Recv);
         msg.id++;
@@ -78,19 +85,21 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
         double Trc = delta / 1000.0; // Converting to seconds
         if (delta > 1000)
         {
-            for (size_t i = 0; i < G_values.size(); ++i) {
-                double Kc = bissection_method(Trc, G_values[i], tau_values[i], 1.01 / G_values[i], 100, 1e-6);
+            //for (size_t i = 0; i < G_values.size(); ++i) {
+                //double Kc = bissection_method(Trc, G_values[i], tau_values[i], 1.01 / G_values[i], 100, 1e-6);
+                double Kc = bissection_method(Trc, G_values[1], tau_values[1], 1.01 / G_values[1], 100, 1e-6);
                 Kc_values.push_back(Kc);
                 cout << "No Controlable, delta = " << delta << endl;
-            }
+            //}
         }
         else
         {
-            for (size_t i = 0; i < G_values.size(); ++i) {
-                double Kc = bissection_method(Trc, G_values[i], tau_values[i], 1.01 / G_values[i], 100, 1e-6);
+            //for (size_t i = 0; i < G_values.size(); ++i) {
+                //double Kc = bissection_method(Trc, G_values[i], tau_values[i], 1.01 / G_values[i], 100, 1e-6);
+                double Kc = bissection_method(Trc, G_values[1], tau_values[1], 1.01 / G_values[1], 100, 1e-6);
                 Kc_values.push_back(Kc);
                 cout << "Controlable, delta = " << delta << endl;
-            }
+            //}
         }
 
         // Kc_values now contains Kc values for each arm
@@ -120,10 +129,10 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
         }
 
         /* Calculate controller output (speed) for each channel. */
-
-        err = in - fb; // error
-        out = err * K;
-
+        for(int j = 0 ; j < ARMS ;j++ ){
+            err[j] = in[j] - fb[j];
+            out[j] = err[j] * K[j];
+        }
         /* Put output in values in the message struct. */
 
         for (int j = 0; j < ARMS; j++)
@@ -131,6 +140,7 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
             msg.joints[j] = out[j];
         }
 
+        
         /* Print values useful for debugging. */
 
         //cout << "time" << 
@@ -142,7 +152,7 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
         printf("out[1]: %6.4lf\n", out[1]);
 
         /* Update message time and send message. */
-
+        msg.pos = 2;
         msg.time += PERIOD;
         sendto(*res, &msg, sizeof(msg), 0, (struct sockaddr *)&sockAddr, sizeof(sockAddr));
     }
@@ -206,6 +216,8 @@ int main()
     for(int j = 0; j < ARMS; j++) {
         K[j] = 0; 
     }
+
+    msg.pos = 1.2;
     /*
         Creation of threads of functions
     */
