@@ -28,6 +28,7 @@
 #define ENGINE 0
 #define K1 0
 #define K2 1
+#define DIVISION_POS 4
 // --------------------------------------------------------
 // server.cpp
 #define ARMS 6

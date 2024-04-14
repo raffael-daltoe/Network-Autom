@@ -148,7 +148,7 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
         printf("out[%d]: %6.4lf\n",ENGINE, out[ENGINE]);
 
         /* Update message time and send message. */
-        msg.pos = M_PI/3;
+        msg.pos = M_PI/DIVISION_POS;
 
         msg.time += PERIOD;
         sendto(*res, &msg, sizeof(msg), 0, (struct sockaddr *)&sockAddr, sizeof(sockAddr));
