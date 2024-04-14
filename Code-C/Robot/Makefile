@@ -21,7 +21,7 @@ EXE = control
 OBJS = extApi.o extApiPlatform.o main.o
 
 all: 		$(OBJS)
-			g++-11 $? -std=c++20 -o $(EXE) -lpthread -lrt -LextApi.o -LextApiPlatform.o 
+			g++-11 $? -std=c++20 -o $(EXE) -pthread -lrt -LextApi.o -LextApiPlatform.o 
 
 
 extApi.o: 	$(INCLUDE2)/extApi.c
