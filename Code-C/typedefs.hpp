@@ -25,6 +25,9 @@
 #include <atomic>
 
 #define ERROR (-1)
+#define ENGINE 0
+#define K1 0
+#define K2 1
 // --------------------------------------------------------
 // server.cpp
 #define ARMS 6

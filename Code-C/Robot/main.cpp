@@ -114,9 +114,9 @@ void vrep_set(int joint, double value,int clientID,float pos)
 
 void SetValuesArm(msg_t msg,int clientID)
 {
-    for(int i = 0; i < ARMS; i++) { 
-        vrep_set(i, msg.joints[i],clientID,msg.pos);
-    }
+    //for(int i = 0; i < ARMS; i++) { 
+        vrep_set(ENGINE, msg.joints[ENGINE],clientID,msg.pos);
+    //}
 }
 
 void receiveSetVelocity(int clientID, struct sockaddr_in sock_received, int server_to_robot,
@@ -131,10 +131,12 @@ void receiveSetVelocity(int clientID, struct sockaddr_in sock_received, int serv
         GetHandles(clientID);
         SetValuesArm(*msg,clientID);
         takeValuesOfCoppelia(msg,clientID);
-        for(int i = 0; i < ARMS; i++) {
-            simxSetObjectIntParameter(clientID, handles[i], 2001, 0,
+        //for(int i = 0; i < ARMS; i++) {
+            //simxSetObjectIntParameter(clientID, handles[i], 2001, 0,
+            //simx_opmode_oneshot);
+            simxSetObjectIntParameter(clientID, handles[ENGINE], 2001, 0,
             simx_opmode_oneshot);
-        }
+        //}
         usleep(TIME_WAITING);
     }
 }

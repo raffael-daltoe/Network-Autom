@@ -3,7 +3,7 @@
 #
 #
 USER_DEFINES=-DNON_MATLAB_PARSING -DMAX_EXT_API_CONNECTIONS=255 -DDO_NOT_USE_SHARED_MEMORY
-CC=gcc -O3 $(USER_DEFINES)
+CC=g++ -O3 $(USER_DEFINES)
 #
 # Set VREP path for include files and 
 # required C files in remoteApi folder:

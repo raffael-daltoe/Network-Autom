@@ -3,11 +3,6 @@
 //using namespace Eigen;
 
 static float stats_engine[6][2];
-// ArrayXd in(ARMS);
-// ArrayXd fb(ARMS);
-// ArrayXd err(ARMS);
-// ArrayXd out(ARMS);
-// ArrayXd K(ARMS);
 double in[ARMS];
 double fb[ARMS];
 double err[ARMS];
@@ -66,7 +61,8 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
     struct timeval start;       
     struct timeval end;  
     unsigned long long delta;
-    std::vector<double> Kc_values;
+    double Kc;
+    
     while (true)
     {
         
@@ -86,59 +82,59 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
         if (delta > 1000)
         {
             //for (size_t i = 0; i < G_values.size(); ++i) {
-                //double Kc = bissection_method(Trc, G_values[i], tau_values[i], 1.01 / G_values[i], 100, 1e-6);
-                double Kc = bissection_method(Trc, G_values[1], tau_values[1], 1.01 / G_values[1], 100, 1e-6);
-                Kc_values.push_back(Kc);
+                double Kc = bissection_method(Trc, G_values[ENGINE], tau_values[ENGINE], K1 / G_values[ENGINE], K2, 1e-6);
+                //double Kc = bissection_method(Trc, G_values[1], tau_values[1], 1.01 / G_values[1], 100, 1e-6);
+                //double Kc_values = Kc;
                 cout << "No Controlable, delta = " << delta << endl;
             //}
         }
         else
         {
             //for (size_t i = 0; i < G_values.size(); ++i) {
-                //double Kc = bissection_method(Trc, G_values[i], tau_values[i], 1.01 / G_values[i], 100, 1e-6);
-                double Kc = bissection_method(Trc, G_values[1], tau_values[1], 1.01 / G_values[1], 100, 1e-6);
-                Kc_values.push_back(Kc);
+                double Kc = bissection_method(Trc, G_values[ENGINE], tau_values[ENGINE], K1 / G_values[ENGINE], K2, 1e-6);
+                //double Kc = bissection_method(Trc, G_values[1], tau_values[1], 1.01 / G_values[1], 100, 1e-6);
+                //double Kc_values = Kc;
                 cout << "Controlable, delta = " << delta << endl;
             //}
         }
 
         // Kc_values now contains Kc values for each arm
-        for (int j=0; j<ARMS;j++) {
-            K[j] = Kc_values[j];
-        }
+        //for (int j=0; j<ARMS;j++) {
+            K[ENGINE] = Kc;
+        //}
         
         // Update Kc gain for each arm.
-        std::vector<double> Kc_values;
-        for (size_t i = 0; i < G_values.size(); ++i) {
-            double Kc = bissection_method(Trc, G_values[i], tau_values[i], 1.01 / G_values[i], 100, 1e-6);
-            Kc_values.push_back(Kc);
-        }
+        //std::vector<double> Kc_values;
+        //for (size_t i = 0; i < G_values.size(); ++i) {
+            //double Kc = bissection_method(Trc, G_values[ENGINE], tau_values[ENGINE], 0 / G_values[ENGINE], K1, 1e-6);
+            //double Kc_values = Kc;
+        //}
 
         // Kc_values now contains Kc values for each arm
-        for (int j=0; j<ARMS;j++) {
-            K[j] = Kc_values[j];
-        }
+        //for (int j=0; j<ARMS;j++) {
+            //K[ENGINE] = Kc;
+        //}
 
 
         /* Generate input signal and retrieve feedback data. */
 
-        for (int j = 0; j < ARMS; j++)
-        {
-            in[j] = 1 * (msg.time % 10000 > msg.time % 5000) - 0.5;
-            fb[j] = msg.joints[j];
-        }
+        //for (int j = 0; j < ARMS; j++)
+        //{
+            in[ENGINE] = 1 * (msg.time % 10000 > msg.time % 5000) - 0.5;
+            fb[ENGINE] = msg.joints[ENGINE];
+        //}
 
         /* Calculate controller output (speed) for each channel. */
-        for(int j = 0 ; j < ARMS ;j++ ){
-            err[j] = in[j] - fb[j];
-            out[j] = err[j] * K[j];
-        }
+        //for(int j = 0 ; j < ARMS ;j++ ){
+            err[ENGINE] = in[ENGINE] - fb[ENGINE];
+            out[ENGINE] = err[ENGINE] * K[ENGINE];
+        //}
         /* Put output in values in the message struct. */
 
-        for (int j = 0; j < ARMS; j++)
-        {
-            msg.joints[j] = out[j];
-        }
+        //for (int j = 0; j < ARMS; j++)
+        //{
+            msg.joints[ENGINE] = out[ENGINE];
+        //}
 
         
         /* Print values useful for debugging. */
@@ -146,13 +142,14 @@ void receive_packages(msg_t &msg, struct sockaddr_in &sockAddr_Recv, int *res2,i
         //cout << "time" << 
         printf("time: %6.4lf\n", msg.time / 1000.0);
         printf("delay: %6.4lf\n", delta / 1000.0);
-        printf("in[1]: %6.4lf\n", in[1]);
-        printf("fb[1]: %6.4lf\n", fb[1]);
-        printf("err[1]: %6.4lf\n", err[1]);
-        printf("out[1]: %6.4lf\n", out[1]);
+        printf("in[%d]: %6.4lf\n", ENGINE, in[ENGINE]);
+        printf("fb[%d]: %6.4lf\n", ENGINE, fb[ENGINE]);
+        printf("err[%d]: %6.4lf\n",ENGINE, err[ENGINE]);
+        printf("out[%d]: %6.4lf\n",ENGINE, out[ENGINE]);
 
         /* Update message time and send message. */
-        msg.pos = 2;
+        msg.pos = M_PI/3;
+
         msg.time += PERIOD;
         sendto(*res, &msg, sizeof(msg), 0, (struct sockaddr *)&sockAddr, sizeof(sockAddr));
     }
@@ -217,7 +214,7 @@ int main()
         K[j] = 0; 
     }
 
-    msg.pos = 1.2;
+    //msg.pos = 1.2;
     /*
         Creation of threads of functions
     */
